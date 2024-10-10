@@ -4,7 +4,7 @@ import { debounce } from 'lodash';
 import { AntDesign } from '@expo/vector-icons'; 
 import { FONTS, SIZES, COLORS } from "../../constant";
 
-const GOOGLE_PLACES_API_KEY = 'AIzaSyDgSyLmL2N4abIHtWRY7HnCFx3XZwpCb3M'; // Replace with your actual API key
+const GOOGLE_PLACES_API_KEY = 'YOUR API KEY'; // Replace with your actual API key
 
 const GooglePlaceAutocomplete = ({ onPlaceSelected, placeholder, countryCode, icon, ...rest }) => {
     const [query, setQuery] = useState('');
