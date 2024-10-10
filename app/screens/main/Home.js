@@ -59,13 +59,21 @@ const Home = ({ navigation }) => {
   const handleCloseBottomSheet = () => bottomSheetRefHome.current?.close();
   const handleOpenBottomSheet = () => bottomSheetRefHome.current?.expand();
 
-  const [mapRegion, setMapRegion] = useState({});
+  // Set default location in Nigeria (Lagos)
+  const defaultRegion = {
+    latitude: 6.5244,
+    longitude: 3.3792,
+    latitudeDelta: 0.10922,
+    longitudeDelta: 0.0921,
+  };
+
+  const [mapRegion, setMapRegion] = useState(defaultRegion);
 
   const handleCloseVendor = (item) => {
     setSelectedVendor(null);
     setMapRegion({
-      latitude: userLocation?.latitude,
-      longitude: userLocation?.longitude,
+      latitude: userLocation?.latitude || defaultRegion.latitude,
+      longitude: userLocation?.longitude || defaultRegion.longitude,
       latitudeDelta:
         selectedDistance == 20
           ? 0.20922

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, TextInput, TouchableOpacity, Text } from "react-native";
+import { View, TextInput, KeyboardAvoidingView, TouchableWithoutFeedback, Platform, Keyboard } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { FONTS, SIZES, COLORS } from "../../constant";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -42,6 +42,10 @@ export default function CustomDateInputWithIcon({
   };
 
   return (
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View
       style={{
         ...FONTS.body3,
@@ -50,9 +54,9 @@ export default function CustomDateInputWithIcon({
         color: COLORS.tertiary,
         marginVertical: SIZES.thickness,
         flexDirection: "row",
-        alignItems: "flex-start",
+        alignItems: "center",
         justifyContent: "flex-start",
-        gap: SIZES.base,
+        
         padding: SIZES.base2,
         borderRadius: SIZES.radius / 2,
       }}
@@ -96,5 +100,7 @@ export default function CustomDateInputWithIcon({
         textColor={COLORS.gray3}
       />
     </View>
+    </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }

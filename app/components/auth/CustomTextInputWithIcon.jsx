@@ -3,7 +3,7 @@ import { View, TextInput, Text } from "react-native";
 import { AntDesign } from '@expo/vector-icons'; 
 import { FONTS, SIZES, COLORS } from "../../constant";
 
-export default function CustomTextInputWithIcon({ placeholder,icon, textIcon, ...rest }) {
+export default function CustomTextInputWithIcon({ placeholder,icon, keyboardType, textIcon, ...rest }) {
   const [isFocused, setIsFocused] = useState(false);
   const [text, setText] = useState("");
 
@@ -23,17 +23,18 @@ export default function CustomTextInputWithIcon({ placeholder,icon, textIcon, ..
         color: COLORS.tertiary,
         marginVertical: SIZES.thickness,
         flexDirection:"row",
-        alignItems: "flex-start",
+        alignItems: "center",
         justifyContent: "flex-start",
         gap: SIZES.base,
         padding: SIZES.base2,
         borderRadius: SIZES.radius / 2,
       }}
     >
-      <View style={{flexDirection:"row", gap: SIZES.base, alignItems: "center"}}>
+      <View style={{flexDirection:"row", gap: SIZES.base, alignItems: "center", justifyContent:"center"}}>
       {icon && <AntDesign name={icon} size={SIZES.base3} color={COLORS.gray3} />} 
       {textIcon && <Text style={{...FONTS.h2, color: COLORS.gray3}}>{textIcon}</Text>}
       <TextInput
+        keyboardType={keyboardType}
         value={text}
         onChangeText={(value) => setText(value)}
         onFocus={handleFocus}

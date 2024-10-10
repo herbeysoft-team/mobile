@@ -1,0 +1,22 @@
+{
+  "cli": {
+    "version": ">= 10.2.1"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "distribution": "internal"
+    },
+    "production": {
+      "env": {
+        "EXPO_PUBLIC_GOOGLE_API_KEY": "AIzaSyDgSyLmL2N4abIHtWRY7HnCFx3XZwpCb3M"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

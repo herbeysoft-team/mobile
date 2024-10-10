@@ -1,9 +1,9 @@
-import { StyleSheet, TextInput, View, TouchableOpacity } from "react-native";
+import { StyleSheet, TextInput, View, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback, Platform, Keyboard } from "react-native";
 import React, { useState } from "react";
 import { FONTS, SIZES, COLORS } from "../../constant";
 import { Octicons } from "@expo/vector-icons";
 
-export default function CustomTextInput({ placeholder, secureTextEntry, ...rest }) {
+export default function CustomTextInputPassword({ placeholder, secureTextEntry, ...rest }) {
   const [isFocused, setIsFocused] = useState(false);
   const [text, setText] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(!secureTextEntry);
@@ -21,6 +21,11 @@ export default function CustomTextInput({ placeholder, secureTextEntry, ...rest 
   };
 
   return (
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    
     <View 
       style={[
         styles.inputContainer,
@@ -47,6 +52,8 @@ export default function CustomTextInput({ placeholder, secureTextEntry, ...rest 
         </TouchableOpacity>
       )}
     </View>
+      </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
   );
 }
 

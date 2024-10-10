@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { KeyboardAvoidingView, StyleSheet, Keyboard, TouchableWithoutFeedback, TextInput, Platform } from "react-native";
 import React, { useState } from "react";
 import { FONTS, SIZES, COLORS } from "../../constant";
 
@@ -14,6 +14,10 @@ export default function CustomTextInput({ placeholder, ...rest }) {
     setIsFocused(false);
   };
   return (
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <TextInput
         value={text}
         onChangeText={(value) => setText(value)}
@@ -32,6 +36,8 @@ export default function CustomTextInput({ placeholder, ...rest }) {
         }}
         {...rest}
       />
+      </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
   );
 }
 

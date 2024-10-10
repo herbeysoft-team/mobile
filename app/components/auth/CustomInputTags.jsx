@@ -1,36 +1,32 @@
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
-import InputTag, { useInputTag } from "react-native-input-tags";
-import React, { useState } from "react";
+import React, { useState, useRef } from 'react';
+import { View, TextInput, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { FONTS, SIZES, COLORS } from "../../constant";
 
-export default function CustomInputTags({ addTag, removeTag, defaultTags}) {
-  const [tags, setTags] = useState(defaultTags || []);
+const CustomInputTags = ({ addTag, removeTag, defaultTags = [] }) => {
+  const [tags, setTags] = useState(defaultTags);
   const [text, setText] = useState("");
   const [isFocused, setIsFocused] = useState(false);
+  const inputRef = useRef(null);
 
   const handleAddTag = () => {
-    const trimmedTag = text.trim(); 
-    if (trimmedTag !== '') {
-      setTags([...tags, trimmedTag]);
+    const trimmedTag = text.trim();
+    if (trimmedTag !== '' && !tags.includes(trimmedTag)) {
+      const newTags = [...tags, trimmedTag];
+      setTags(newTags);
       setText('');
-      addTag(trimmedTag); 
+      addTag(trimmedTag);
     }
   };
 
   const handleRemoveTag = (index) => {
-    const newTags = [...tags];
-    newTags.splice(index, 1);
+    const newTags = tags.filter((_, i) => i !== index);
     setTags(newTags);
-    removeTag(index); 
+    removeTag(index);
   };
 
-  const handleFocus = () => {
-    setIsFocused(true);
-  };
+  const handleFocus = () => setIsFocused(true);
+  const handleBlur = () => setIsFocused(false);
 
-  const handleBlur = () => {
-    setIsFocused(false);
-  };
   return (
     <View
       style={{
@@ -39,45 +35,53 @@ export default function CustomInputTags({ addTag, removeTag, defaultTags}) {
         borderColor: isFocused ? COLORS.primary : COLORS.gray4,
         color: COLORS.tertiary,
         marginVertical: SIZES.thickness,
-        flexDirection: "row",
-        alignItems: "flex-start",
-        justifyContent: "flex-start",
-        gap: SIZES.base,
         padding: SIZES.base2,
         borderRadius: SIZES.radius / 2,
       }}
     >
-      <View style={{ flexDirection: "row", flexWrap: 'wrap', alignItems: 'center', width: '100%'}}>
+      <ScrollView 
+        horizontal={false} 
+        contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap' }}
+      >
         {tags.map((tag, index) => (
-          <View
+          <TouchableOpacity
             key={index}
+            onPress={() => handleRemoveTag(index)}
             style={{
               flexDirection: "row",
               alignItems: "center",
-              justifyContent: "flex-start",
               marginVertical: SIZES.thickness,
               marginRight: SIZES.thickness,
               borderColor: COLORS.gray4,
               borderWidth: SIZES.thin,
               padding: SIZES.thickness,
               borderRadius: SIZES.base,
-              color: COLORS.gray4,
             }}
           >
-            <Text
-              style={{ ...FONTS.body4, color: COLORS.tertiary }} onPress={() => handleRemoveTag(index)}
-            >{`#${tag}`}</Text>
-          </View>
+            <Text style={{ ...FONTS.body4, color: COLORS.tertiary }}>
+              {`#${tag}`}
+            </Text>
+          </TouchableOpacity>
         ))}
         <TextInput
+          ref={inputRef}
           value={text}
-          onChangeText={(value) => setText(value)}
+          onChangeText={setText}
           placeholder="Add tag"
           onSubmitEditing={handleAddTag}
           onFocus={handleFocus}
           onBlur={handleBlur}
+          style={{
+            ...FONTS.body3,
+            color: COLORS.tertiary,
+            padding: SIZES.thickness,
+            flex: 1,
+            minWidth: 100,
+          }}
         />
-      </View>
+      </ScrollView>
     </View>
   );
-}
+};
+
+export default CustomInputTags;

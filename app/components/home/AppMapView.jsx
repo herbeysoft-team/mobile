@@ -5,7 +5,7 @@ import {
   Platform,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import MapView, { Marker, Circle, PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { Marker, Circle, PROVIDER_GOOGLE, } from "react-native-maps";
 import { FONTS, COLORS, SIZES, URLBASE } from "../../constant";
 import { useDispatch, useSelector } from "react-redux";
 import placeholder from "../../../assets/placeholder.png";
@@ -217,14 +217,14 @@ const AppMapView = ({ vendor, mapRegion, onVendorSelect, isBottomSheetOpen }) =>
       <MapView
         style={styles.map}
         customMapStyle={customMapStyle}
-        provider={PROVIDER_GOOGLE}
+        provider={Platform.OS === "ios" ? PROVIDER_GOOGLE : PROVIDER_GOOGLE} // Apple Maps on iOS, Google Maps on Android
         showsUserLocation={true}
         region={mapRegion}
         scrollEnabled={false}
         zoomEnabled={false}
       >
         {/* Circle to represent the radar */}
-        {circleData.map((circle, index) => (
+        {circleData?.map((circle, index) => (
           <Circle
             key={index}
             center={mapRegion}
@@ -234,7 +234,7 @@ const AppMapView = ({ vendor, mapRegion, onVendorSelect, isBottomSheetOpen }) =>
             strokeWidth={2}
           />
         ))}
-        {vendor?.map((item, index) => (
+        {vendor?.length > 0 && vendor.map((item, index) => (
           <Marker
             onPress={() => handleVendorSelect(item)}
             key={item._id}

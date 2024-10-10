@@ -113,6 +113,7 @@ const GooglePlaceAutocomplete = ({ onPlaceSelected, placeholder, countryCode, ic
         <FlatList
           data={places}
           keyExtractor={(item) => item.place_id}
+          scrollEnabled={false}
           renderItem={({ item }) => (
             <TouchableOpacity
               style={styles.suggestion}
@@ -137,12 +138,13 @@ const GooglePlaceAutocomplete = ({ onPlaceSelected, placeholder, countryCode, ic
       borderRadius: 8,
       paddingHorizontal: 16,
       fontSize: 16,
-      backgroundColor: '#fff',
+      backgroundColor: COLORS.white,
     },
     loadingText: {
       marginTop: SIZES.base2,
       color: COLORS.accent,
       fontStyle: 'italic',
+      ...FONTS.body4
     },
     suggestion: {
       backgroundColor: COLORS.white,
